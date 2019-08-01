@@ -18,20 +18,20 @@ var _current_hero
 
 
 func _ready():
-	inititalize_map()
-	inititalize_party()
-	inititalize_ui()
+	initialize_map()
+	initialize_party()
+	initialize_ui()
 	start_turn()
 
-func inititalize_map():
+func initialize_map():
 	_map_manager = $MapManager
 	_map_manager.initialize()
 
-func inititalize_party():
+func initialize_party():
 	_party_manager = $PartyManager
 	_party_manager.inititalize()
 
-func inititalize_ui():
+func initialize_ui():
 	_ui_manager = $UIManager
 	_ui_manager.inititalize()
 
