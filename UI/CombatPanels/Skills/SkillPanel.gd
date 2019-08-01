@@ -17,7 +17,7 @@ func initialize(skill):
 	_confirm_button = $ConfirmButton
 	
 	_skill.on_skill_select()
-	if _skill._ready_to_confirm:
+	if _skill.is_skill_confirmable():
 		_confirm_button.disabled = false
 
 
@@ -31,7 +31,7 @@ func close_panel():
 
 func on_tile_click(tile):
 	_skill.on_tile_click(tile)
-	if _skill._ready_to_confirm:
+	if _skill.is_skill_confirmable():
 		_confirm_button.disabled = false
 	else:
 		_confirm_button.disabled = true

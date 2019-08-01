@@ -24,6 +24,12 @@ func initialize(overseer, hero):
 	_map_manager = overseer._map_manager
 
 
+func is_skill_confirmable():
+	if _usable and _ready_to_confirm:
+		return true
+	return false
+
+
 func on_skill_select(): # when you confirm the skill in the skill panel
 	if _calculate_skillable_tiles:
 		_skillable_tiles = _map_manager.get_attackable_tiles_in_range( \
@@ -33,10 +39,9 @@ func on_skill_select(): # when you confirm the skill in the skill panel
 		_skillable_tiles.find(\
 		_map_manager.get_tile_with_coordinates(_hero._coordinates)))
 		
+		_calculate_skillable_tiles = false
 		if _skillable_tiles.size() == 0:
 			_usable = false
-		
-		_calculate_skillable_tiles = false
 	
 	_map_manager.highlight_tiles_select(_skillable_tiles)
 
@@ -85,7 +90,7 @@ func apply_skill(target):
 
 func on_turn_start():
 	_current_cooldown -= 1
-	if _current_cooldown <= 0:
+	if _current_cooldown < 0:
 		_usable = true
 	_calculate_skillable_tiles = true
 	_skillable_tiles.clear()
