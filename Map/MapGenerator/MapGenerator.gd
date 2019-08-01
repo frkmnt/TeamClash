@@ -17,7 +17,7 @@ var tileset= {}
 
 
 
-func inititalize():
+func initialize():
 	load_sprites()
 	generate_map()
 

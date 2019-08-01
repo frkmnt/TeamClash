@@ -18,17 +18,12 @@ var _current_hero_tile
 # ===Bootstrap===
 
 func initialize():
-	load_map_generator()
+	_map_generator = $MapGenerator
 	generate_random_map()
 	initialize_sprites()
 
-func load_map_generator():
-	var map_generator_prefab = preload("res://Map/MapGenerator/MapGenerator.tscn")
-	_map_generator = map_generator_prefab.instance()
-	add_child(_map_generator)
-
 func generate_random_map():
-	_map_generator.inititalize()
+	_map_generator.initialize()
 	_tilemap = _map_generator.tileset
 	_map_generator.delete_generator()
 

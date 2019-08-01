@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 
 # ===Variables===
@@ -17,28 +17,22 @@ var _current_hero
 
 
 
-func _init():
+func _ready():
 	inititalize_map()
 	inititalize_party()
 	inititalize_ui()
 	start_turn()
 
 func inititalize_map():
-	var map_manager_prefab = preload("res://Map/MapManager.tscn")
-	_map_manager = map_manager_prefab.instance()
-	add_child(_map_manager)
+	_map_manager = $MapManager
 	_map_manager.initialize()
 
 func inititalize_party():
-	var party_manager_prefab = preload("res://Party/PartyManager.tscn")
-	_party_manager = party_manager_prefab.instance()
-	add_child(_party_manager)
+	_party_manager = $PartyManager
 	_party_manager.inititalize()
 
 func inititalize_ui():
-	var ui_manager_prefab = preload("res://UI/UIManager.tscn")
-	_ui_manager = ui_manager_prefab.instance()
-	add_child(_ui_manager)
+	_ui_manager = $UIManager
 	_ui_manager.inititalize()
 
 
