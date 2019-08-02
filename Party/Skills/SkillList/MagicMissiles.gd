@@ -4,11 +4,11 @@ var _map_manager
 var _hero
 var _damage_container
 
-var _skill_name = "Arcane Downfall"
+var _skill_name = "Magic Missiles"
 var _skill_type = "Target"
-var _skill_description = "Deals 20 magic damage in an area."
-var _skill_cost = 4
-var _skill_cooldown = 0
+var _skill_description = "Deals 3x 10 magic damage to the target."
+var _skill_cost = 3
+var _skill_cooldown = 3
 
 var _current_cooldown = 0
 var _usable = false
@@ -16,15 +16,15 @@ var _ready_to_confirm = false
 var _calculate_skillable_tiles = true
 
 var _skillable_tiles = []
-var _target_point
-var _targets = []
+var _target
 
 
 func initialize(overseer, hero):
 	_damage_container = preload("res://Party/Utils/DamageContainer.gd").new()
-	_damage_container.initialize(0,20,0)
+	_damage_container.initialize(0,10,0)
 	_hero = hero
 	_map_manager = overseer._map_manager
+
 
 
 
@@ -45,11 +45,11 @@ func on_turn_start():
 func on_move():
 	clear_meta_info()
 
+
 func clear_meta_info():
 	_calculate_skillable_tiles = true
 	_skillable_tiles.clear()
-	_target_point = null
-	_targets.clear()
+	_target = null
 
 
 
@@ -59,8 +59,8 @@ func clear_meta_info():
 
 func on_skill_select(): # when you confirm the skill in the skill panel
 	if _calculate_skillable_tiles:
-		_skillable_tiles = _map_manager.get_tiles_in_range( \
-		_hero._coordinates, 5)
+		_skillable_tiles = _map_manager.get_attackable_tiles_in_range( \
+		_hero._coordinates, 4)
 		
 		_skillable_tiles.remove( \
 		_skillable_tiles.find(\
@@ -77,17 +77,16 @@ func on_skill_select(): # when you confirm the skill in the skill panel
 
 func on_skill_deselect():
 	_ready_to_confirm = false
-	_target_point = null
-	_targets.clear()
 	_map_manager.remove_highlight_from_select_tiles()
 	_map_manager.remove_highlight_from_confirm_tiles()
+	_target = null
 
 
 
 
 func on_tile_click(tile):
 	if _usable:
-		if _target_point == null:
+		if _target == null:
 			on_target_select(tile)
 		else:
 			on_target_confirmed(tile)
@@ -95,29 +94,24 @@ func on_tile_click(tile):
 
 func on_target_select(tile): # highlight targets
 	if tile in _skillable_tiles:
-		_target_point = tile
-		_targets = _map_manager.get_tiles_in_range( \
-		tile._coordinates, 1)
+		_target = tile
 		_map_manager.remove_highlight_from_select_tiles()
-		_map_manager.highlight_tiles_confirm(_targets)
+		_map_manager.highlight_tile_confirm(tile)
 		_ready_to_confirm = true
 
 
 func on_target_confirmed(tile):
-	if not tile in _targets:
+	if tile != _target:
 		_map_manager.remove_highlight_from_confirm_tiles()
 		_map_manager.highlight_tiles_select(_skillable_tiles)
-		_target_point = null
-		_targets.clear()
 		_ready_to_confirm = false
 
 
 func confirm_skill():
-	for tile in _targets:
-		tile.skill_tile(self)
+	for i in range(3):
+		_target.skill_tile(self)
 	_map_manager.remove_highlight_from_confirm_tiles()
 	_usable = false
-	_ready_to_confirm = false
 	_current_cooldown = _skill_cooldown
 
 

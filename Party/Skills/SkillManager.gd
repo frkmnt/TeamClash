@@ -21,6 +21,12 @@ func get_skill():
 
 func on_turn_start():
 	for skill in _skill_list:
-		skill.on_turn_start()
+		if skill.has_method("on_turn_start"):
+			skill.on_turn_start()
+
+func on_move():
+	for skill in _skill_list:
+		if skill.has_method("on_move"):
+			skill.on_move()
 
 

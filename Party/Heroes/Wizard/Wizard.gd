@@ -57,6 +57,8 @@ func inititalize_skills(overseer):
 	_skills.add_skill(arcane_blast.new())
 	var arcane_downfall = preload("res://Party/Skills/SkillList/ArcaneDownfall.gd")
 	_skills.add_skill(arcane_downfall.new())
+	var magic_missiles = preload("res://Party/Skills/SkillList/MagicMissiles.gd")
+	_skills.add_skill(magic_missiles.new())
 
 
 
@@ -84,6 +86,7 @@ func end_turn():
 func on_move():
 	_calculate_attackable_tiles = true
 	_modifiers.on_move()
+	_skills.on_move()
 
 
 

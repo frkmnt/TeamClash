@@ -21,6 +21,7 @@ var _current_cooldown = 0
 var _usable = true
 var _ready_to_confirm = true
 var _calculate_skillable_tiles = true
+
 var _skillable_tiles = []
 
 
@@ -31,11 +32,31 @@ func initialize(overseer, hero):
 	_map_manager = overseer._map_manager
 
 
+
+# Utility
+
 func is_skill_confirmable():
 	if _usable and _ready_to_confirm:
 		return true
 	return false
 
+func on_turn_start():
+	_current_cooldown -= 1
+	if _current_cooldown < 0:
+		_usable = true
+	clear_meta_info()
+
+func on_move():
+	clear_meta_info()
+
+
+func clear_meta_info():
+	_calculate_skillable_tiles = true
+	_skillable_tiles.clear()
+
+
+
+# Target Selection
 
 func on_skill_select(): # when you confirm the skill in the skill panel
 	if _calculate_skillable_tiles:
@@ -63,15 +84,8 @@ func on_skill_deselect():
 
 
 
-
-func on_tile_click(tile):
-	pass
-
-
-
-
 func confirm_skill():
-	for tile in _map_manager._confirm_tiles:
+	for tile in _skillable_tiles:
 		tile.skill_tile(self)
 	_map_manager.remove_highlight_from_confirm_tiles()
 	_usable = false
@@ -86,12 +100,7 @@ func apply_skill(target):
 
 
 
-func on_turn_start():
-	_current_cooldown -= 1
-	if _current_cooldown < 0:
-		_usable = true
-	_calculate_skillable_tiles = true
-	_skillable_tiles.clear()
+
 
 
 

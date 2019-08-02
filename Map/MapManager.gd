@@ -195,6 +195,27 @@ func get_attackable_tiles_in_range(origin, radius):
 
 
 
+
+func get_unnocupied_tiles_in_range(origin, radius):
+	var start_x = origin.x - radius
+	var end_x = origin.x + radius+1
+	var start_y = origin.y - radius
+	var end_y = origin.y + radius+1
+	var tiles_in_range = []
+	
+	for x in range(start_x, end_x):
+		for y in range(start_y, end_y):
+			if _tilemap.has(Vector2(x,y)):
+				var tile = _tilemap.get(Vector2(x,y))
+				if tile._is_moveable:
+					tiles_in_range.append(_tilemap.get(Vector2(x,y)))
+	
+	return tiles_in_range
+
+
+
+
+
 var _speed_grid = {} # records the least ammount of speed needed to reach each tile
 
 func get_moveable_tiles(origin, speed):

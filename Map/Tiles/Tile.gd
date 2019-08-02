@@ -30,7 +30,6 @@ func on_click_event(viewport, event, shape_idx):
 func set_coordinates(x, y):
 	_coordinates = Vector2(x, y)
 
-
 func set_sprite(sprite):
 	var sprite_holder = $Sprite
 	sprite_holder.texture = sprite
@@ -41,8 +40,6 @@ func is_hero_on_tile():
 
 func is_object_on_tile():
 	return _tile_object == null
-
-
 
 
 

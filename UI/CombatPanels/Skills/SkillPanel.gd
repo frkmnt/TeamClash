@@ -30,11 +30,12 @@ func close_panel():
 
 
 func on_tile_click(tile):
-	_skill.on_tile_click(tile)
-	if _skill.is_skill_confirmable():
-		_confirm_button.disabled = false
-	else:
-		_confirm_button.disabled = true
+	if _skill.has_method("on_tile_click"):
+		_skill.on_tile_click(tile)
+		if _skill.is_skill_confirmable():
+			_confirm_button.disabled = false
+		else:
+			_confirm_button.disabled = true
 
 func on_skill_confirm():
 	_skill.confirm_skill()
