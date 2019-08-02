@@ -19,6 +19,11 @@ config/name="Team Clash"
 run/main_scene="res://Utils/CombatOverseer.tscn"
 config/icon="res://icon.png"
 
+[debug]
+
+gdscript/warnings/unused_class_variable=false
+gdscript/warnings/unused_argument=false
+
 [display]
 
 window/size/width=1280

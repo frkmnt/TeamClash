@@ -61,17 +61,17 @@ func is_tile_moveable(coordinates):
 func highlight_current_hero_tile(hero):
 	var highlight_instance = _current_hero_highlight.instance()
 	var current_tile = _tilemap.get(hero._coordinates)
-	current_tile.highlight(highlight_instance)
+	current_tile.add_current_hero_highlight(highlight_instance)
 	_current_hero_tile = current_tile
 
 func highlight_tile_select(tile):
 	var highlight_instance = _select_highlight.instance()
-	tile.highlight(highlight_instance)
+	tile.add_highlight(highlight_instance)
 	_highlighted_tiles.append(tile)
 
 func highlight_tile_confirm(tile):
 	var highlight_instance = _confirm_highlight.instance()
-	tile.highlight(highlight_instance)
+	tile.add_highlight(highlight_instance)
 	_confirm_tiles.append(tile)
 
 
@@ -79,14 +79,14 @@ func highlight_tiles_select(tile_list):
 	var highlight_instance
 	for tile in tile_list:
 		highlight_instance = _select_highlight.instance()
-		tile.highlight(highlight_instance)
+		tile.add_highlight(highlight_instance)
 		_highlighted_tiles.append(tile)
 
 func highlight_tiles_confirm(tile_list):
 	var highlight_instance
 	for tile in tile_list:
 		highlight_instance = _confirm_highlight.instance()
-		tile.highlight(highlight_instance)
+		tile.add_highlight(highlight_instance)
 		_confirm_tiles.append(tile)
 
 
@@ -114,7 +114,7 @@ func remove_highlight_from_confirm_tiles():
 
 func remove_current_hero_highlight():
 	if _current_hero_tile != null:
-		_current_hero_tile.remove_highlight()
+		_current_hero_tile.remove_current_hero_highlight()
 		_current_hero_tile = null
 
 

@@ -4,7 +4,7 @@ var _map_manager
 var _hero
 var _damage_container
 
-var _skill_name = "Arcane Array"
+var _skill_name = "Arcane Downfall"
 var _skill_type = "Target"
 var _skill_description = "Deals 20 magic damage in an area."
 var _skill_cost = 4
@@ -19,10 +19,14 @@ var _skillable_tiles = []
 
 func initialize(overseer, hero):
 	_damage_container = preload("res://Party/Utils/DamageContainer.gd").new()
-	_damage_container.initialize(0,60,0)
+	_damage_container.initialize(0,20,0)
 	_hero = hero
 	_map_manager = overseer._map_manager
 
+
+
+
+# Utility
 
 func is_skill_confirmable():
 	if _usable and _ready_to_confirm:
@@ -30,10 +34,21 @@ func is_skill_confirmable():
 	return false
 
 
+func on_turn_start():
+	_current_cooldown -= 1
+	if _current_cooldown < 0:
+		_usable = true
+	_calculate_skillable_tiles = true
+	_skillable_tiles.clear()
+
+
+
+# Target Selection
+
 func on_skill_select(): # when you confirm the skill in the skill panel
 	if _calculate_skillable_tiles:
-		_skillable_tiles = _map_manager.get_attackable_tiles_in_range( \
-		_hero._coordinates, 7)
+		_skillable_tiles = _map_manager.get_tiles_in_range( \
+		_hero._coordinates, 5)
 		
 		_skillable_tiles.remove( \
 		_skillable_tiles.find(\
@@ -55,20 +70,22 @@ func on_skill_deselect():
 
 func on_tile_click(tile):
 	if _usable:
-		if _map_manager._confirm_tiles.size() > 0:
-			on_target_confirm(tile)
-		else:
+		if _map_manager._confirm_tiles.size() == 0:
 			on_target_select(tile)
+		else:
+			on_target_confirmed(tile)
 
 
 func on_target_select(tile): # highlight targets
 	if tile in _skillable_tiles:
+		var confirm_tiles = _map_manager.get_tiles_in_range( \
+		tile._coordinates, 1)
 		_map_manager.remove_highlight_from_select_tiles()
-		_map_manager.highlight_tile_confirm(tile)
+		_map_manager.highlight_tiles_confirm(confirm_tiles)
 		_ready_to_confirm = true
 
 
-func on_target_confirm(tile):
+func on_target_confirmed(tile):
 	if not tile in _map_manager._confirm_tiles:
 		_map_manager.remove_highlight_from_confirm_tiles()
 		_map_manager.highlight_tiles_select(_skillable_tiles)
@@ -76,9 +93,11 @@ func on_target_confirm(tile):
 
 
 func confirm_skill():
-	_map_manager._confirm_tiles[0]._tile_hero.receive_skill(self)
+	for tile in _map_manager._confirm_tiles:
+		tile.skill_tile(self)
 	_map_manager.remove_highlight_from_confirm_tiles()
 	_usable = false
+	_ready_to_confirm = false
 	_current_cooldown = _skill_cooldown
 
 
@@ -88,12 +107,7 @@ func apply_skill(target):
 	print("HP After: ", target._attributes._current_health)
 
 
-func on_turn_start():
-	_current_cooldown -= 1
-	if _current_cooldown < 0:
-		_usable = true
-	_calculate_skillable_tiles = true
-	_skillable_tiles.clear()
+
 
 
 

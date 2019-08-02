@@ -9,6 +9,7 @@ var _tile_object = null
 var _tile_hero = null
 var _is_moveable = true
 
+var _current_hero_highlight
 var _tile_highlight
 
 
@@ -47,14 +48,21 @@ func is_object_on_tile():
 
 # Highlight
 
-func highlight(highlight):
+func add_current_hero_highlight(highlight):
+	_current_hero_highlight = highlight
+	add_child(highlight)
+
+func remove_current_hero_highlight():
+	_current_hero_highlight.queue_free()
+
+
+func add_highlight(highlight):
 	_tile_highlight = highlight
 	add_child(highlight)
 
 
 func remove_highlight():
 	_tile_highlight.queue_free()
-	_tile_highlight == null
 
 
 

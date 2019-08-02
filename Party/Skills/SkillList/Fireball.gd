@@ -55,10 +55,10 @@ func on_skill_deselect():
 
 func on_tile_click(tile):
 	if _usable:
-		if _map_manager._confirm_tiles.size() > 0:
-			on_target_confirm(tile)
-		else:
+		if _map_manager._confirm_tiles.size() == 0:
 			on_target_select(tile)
+		else:
+			on_target_confirmed(tile)
 
 
 func on_target_select(tile): # highlight targets
@@ -68,7 +68,7 @@ func on_target_select(tile): # highlight targets
 		_ready_to_confirm = true
 
 
-func on_target_confirm(tile):
+func on_target_confirmed(tile):
 	if not tile in _map_manager._confirm_tiles:
 		_map_manager.remove_highlight_from_confirm_tiles()
 		_map_manager.highlight_tiles_select(_skillable_tiles)
@@ -76,7 +76,7 @@ func on_target_confirm(tile):
 
 
 func confirm_skill():
-	_map_manager._confirm_tiles[0]._tile_hero.receive_skill(self)
+	_map_manager._confirm_tiles[0].skill_tile(self)
 	_map_manager.remove_highlight_from_confirm_tiles()
 	_usable = false
 	_current_cooldown = _skill_cooldown

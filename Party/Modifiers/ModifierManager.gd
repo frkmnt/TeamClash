@@ -8,8 +8,8 @@ var _modifier_map = {}
 
 
 # Local modifiers (bool)
-var can_move = true
-var can_attack = true
+#var can_move = true
+#var can_attack = true
 
 
 
@@ -28,6 +28,7 @@ func initialize_modifier_map():
 	_modifier_map["attack"] = []
 	_modifier_map["skill"] = []
 	_modifier_map["receive_attack"] = []
+	_modifier_map["receive_skill"] = []
 	_modifier_map["move"] = []
 
 func add_modifier(modifier):
@@ -54,9 +55,19 @@ func add_modifier(modifier):
 				_modifier_map.get("move").append(modifier)
 
 
+
+
+
+
+# Event Management
+
 func on_turn_start():
+	var modifiers_to_remove = []
 	for modifier in _modifier_map.get("turn_start"):
-		var remove = modifier.on_turn_start()
+		modifier.on_turn_start()
+		if modifier.needs_to_be_removed:
+			modifiers_to_remove.append(modifier)
+	remove_modifiers(modifiers_to_remove)
 
 func on_turn_end():
 	var modifiers_to_remove = []
@@ -67,24 +78,51 @@ func on_turn_end():
 	remove_modifiers(modifiers_to_remove)
 
 func on_attack():
-	pass
+	var modifiers_to_remove = []
+	for modifier in _modifier_map.get("attack"):
+		modifier.on_attack()
+		if modifier.needs_to_be_removed:
+			modifiers_to_remove.append(modifier)
+	remove_modifiers(modifiers_to_remove)
 
 func on_skill():
-	pass
+	var modifiers_to_remove = []
+	for modifier in _modifier_map.get("skill"):
+		modifier.on_skill()
+		if modifier.needs_to_be_removed:
+			modifiers_to_remove.append(modifier)
+	remove_modifiers(modifiers_to_remove)
 
 func on_receive_attack():
-	pass
+	var modifiers_to_remove = []
+	for modifier in _modifier_map.get("receive_attack"):
+		modifier.on_receive_attack()
+		if modifier.needs_to_be_removed:
+			modifiers_to_remove.append(modifier)
+	remove_modifiers(modifiers_to_remove)
 
 
 func on_receive_skill(skill):
-	#skill._damage_container._magical_damage -= 30
-	pass
+	var modifiers_to_remove = []
+	for modifier in _modifier_map.get("receive_skill"):
+		modifier.on_receive_skill()
+		if modifier.needs_to_be_removed:
+			modifiers_to_remove.append(modifier)
+	remove_modifiers(modifiers_to_remove)
 
 
 func on_move():
-	pass
+	var modifiers_to_remove = []
+	for modifier in _modifier_map.get("move"):
+		modifier.on_move()
+		if modifier.needs_to_be_removed:
+			modifiers_to_remove.append(modifier)
+	remove_modifiers(modifiers_to_remove)
 
 
+
+
+# Utility
 
 func remove_modifiers(modifier_list):
 	var type_list
@@ -95,7 +133,7 @@ func remove_modifiers(modifier_list):
 				type_list = _modifier_map.get(type)
 				modifier_index = type_list.find(modifier)
 				type_list.remove(modifier_index)
-				print("removed ", modifier)
+				print("removed modifier ", modifier)
 
 
 

@@ -46,7 +46,7 @@ func load_skill_menu():
 
 # Logic
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("camera_up"):
 		position.y -= 1
 	if Input.is_action_pressed("camera_down"):

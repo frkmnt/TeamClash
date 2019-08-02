@@ -55,6 +55,8 @@ func inititalize_skills(overseer):
 	_skills.add_skill(fireball.new())
 	var arcane_blast = preload("res://Party/Skills/SkillList/ArcaneBlast.gd")
 	_skills.add_skill(arcane_blast.new())
+	var arcane_downfall = preload("res://Party/Skills/SkillList/ArcaneDownfall.gd")
+	_skills.add_skill(arcane_downfall.new())
 
 
 
