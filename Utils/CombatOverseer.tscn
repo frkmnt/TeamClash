@@ -13,4 +13,3 @@ script = ExtResource( 1 )
 [node name="PartyManager" parent="." instance=ExtResource( 3 )]
 
 [node name="UIManager" parent="." instance=ExtResource( 4 )]
-

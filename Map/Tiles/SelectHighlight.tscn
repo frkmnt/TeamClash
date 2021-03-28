@@ -4,4 +4,3 @@
 
 [node name="Sprite" type="Sprite"]
 texture = ExtResource( 1 )
-
