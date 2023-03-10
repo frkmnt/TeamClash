@@ -18,7 +18,7 @@ var _tile_highlight
 
 func on_click_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton \
-	and event.button_index == BUTTON_LEFT \
+#	and event.button_index == BUTTON_LEFT \
 	and event.is_pressed():
 		get_parent().get_parent().tile_was_clicked(_coordinates)
 

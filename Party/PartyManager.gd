@@ -22,7 +22,7 @@ func inititalize():
 
 func load_hero():
 	var temp_hero = preload("res://Party/Heroes/Wizard/Wizard.tscn")
-	var hero = temp_hero.instance()
+	var hero = temp_hero.instantiate()
 	add_child(hero)
 	party.append(hero)
 	turn_queue.append(hero)

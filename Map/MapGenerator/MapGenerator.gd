@@ -97,11 +97,12 @@ func create_new_tile(x, y, tile_type):
 func get_random_sprite_of_type(sprite_type):
 	var sprite_list = sprite_map.get(sprite_type)
 	randomize()
-	return sprite_list[floor(rand_range(0, sprite_list.size()))]
+#	return sprite_list[floor(rand_range(0, sprite_list.size()))]
+	return sprite_list[0]
 
 
 func generate_tile(x, y, tile_type):
-	var tile = tile_prefab.instance()
+	var tile = tile_prefab.instantiate()
 	tile.position = Vector2(x*_PIXEL_RATIO, y*_PIXEL_RATIO)
 	get_parent().add_child(tile)
 	tile.set_coordinates(x, y)

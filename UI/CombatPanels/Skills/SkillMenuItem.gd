@@ -19,7 +19,7 @@ func initialize(skill_menu, skill):
 
 func on_item_click(event):
 	if event is InputEventMouseButton \
-	and event.button_index == BUTTON_LEFT \
+#	and event.button_index == BUTTON_LEFT \
 	and event.is_pressed():
 		open_panel()
 

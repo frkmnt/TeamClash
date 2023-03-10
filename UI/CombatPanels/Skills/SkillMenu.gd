@@ -23,10 +23,10 @@ func clear_skill_list():
 
 
 func add_skill_to_list(skill):
-	var item_instance = _list_item_prefab.instance()
+	var item_instance = _list_item_prefab.instantiate()
 	item_instance.initialize(self, skill)
 	$ScrollContainer/List.add_child(item_instance)
-	item_instance.rect_min_size = Vector2(164, 32)
+#	item_instance.rect_min_size = Vector2(164, 32)
 
 func close_skill_panel():
 	if _current_skill_panel != null:
